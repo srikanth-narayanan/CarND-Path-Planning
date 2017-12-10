@@ -35,6 +35,8 @@
 
 /* Begin PBXBuildFile section */
 		2E0BB3CF5B5A4637BEFE3796 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD36E25F31E64E8C81672698 /* main.cpp */; };
+		7589A22E1FDD0516007A5E9A /* jmt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7589A22C1FDD0516007A5E9A /* jmt.cpp */; };
+		7589A2331FDD0C12007A5E9A /* vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7589A2321FDD0C12007A5E9A /* vehicle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,12 @@
 		53C07DE647C44F808CEB46B2 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		5EE05E4E99664E659AA0CF8B /* path_planning */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = path_planning; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D604AD7F214BDA86901669 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		750686B71FD98C0B00884471 /* cost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cost.h; path = src/cost.h; sourceTree = "<group>"; };
+		750686B81FD98D9A00884471 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = constants.h; path = src/constants.h; sourceTree = "<group>"; };
+		7589A22C1FDD0516007A5E9A /* jmt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = jmt.cpp; path = src/jmt.cpp; sourceTree = "<group>"; };
+		7589A2311FDD0A74007A5E9A /* jmt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = jmt.h; path = src/jmt.h; sourceTree = "<group>"; };
+		7589A2321FDD0C12007A5E9A /* vehicle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vehicle.cpp; path = src/vehicle.cpp; sourceTree = "<group>"; };
+		7589A2351FDD0C47007A5E9A /* vehicle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = vehicle.h; path = src/vehicle.h; sourceTree = "<group>"; };
 		75B697B71FD46AF4003614C8 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = src/json.hpp; sourceTree = "<group>"; };
 		75B697B81FD46AFC003614C8 /* spline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = spline.h; path = src/spline.h; sourceTree = "<group>"; };
 		75B697BA1FD46B47003614C8 /* Eigen-3.3 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Eigen-3.3"; path = "src/Eigen-3.3"; sourceTree = "<group>"; };
@@ -85,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				BD36E25F31E64E8C81672698 /* main.cpp */,
+				7589A22C1FDD0516007A5E9A /* jmt.cpp */,
+				7589A2321FDD0C12007A5E9A /* vehicle.cpp */,
 			);
 			name = "Source Files";
 			sourceTree = "<group>";
@@ -118,8 +128,12 @@
 		75B697B61FD46AE3003614C8 /* Header Files */ = {
 			isa = PBXGroup;
 			children = (
+				750686B71FD98C0B00884471 /* cost.h */,
+				750686B81FD98D9A00884471 /* constants.h */,
 				75B697B81FD46AFC003614C8 /* spline.h */,
 				75B697B71FD46AF4003614C8 /* json.hpp */,
+				7589A2311FDD0A74007A5E9A /* jmt.h */,
+				7589A2351FDD0C47007A5E9A /* vehicle.h */,
 			);
 			name = "Header Files";
 			sourceTree = "<group>";
@@ -234,6 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E0BB3CF5B5A4637BEFE3796 /* main.cpp in Sources */,
+				7589A2331FDD0C12007A5E9A /* vehicle.cpp in Sources */,
+				7589A22E1FDD0516007A5E9A /* jmt.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

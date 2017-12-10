@@ -205,7 +205,7 @@ int main() {
   int lane = 1;
   
   // Reference velocity
-  double v_ref = 49.5; // velcoity in miles per hour
+  double v_ref = 0; // velcoity in miles per hour
   
   h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy,&v_ref,&lane](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
@@ -248,6 +248,50 @@ int main() {
         
           // Previous size
           int prev_size = previous_path_x.size();
+          
+          // ######################################################################### //
+          // Using sensor fusion module to plan the tracjectory or Collision avoidance //
+          // ######################################################################### //
+          
+          if(prev_size > 0)
+          {
+            car_s = end_path_s;
+          }
+          
+          bool too_close = false;
+          for(int i = 0; i < sensor_fusion.size(); i++)
+          {
+            // check if any of the car reported by sensor fusion is in our lane
+            float d = sensor_fusion[i][6];
+            if(d < (2+4*lane+2) && d > (2+4*lane-2)) // between 4 and 8
+            {
+              double vx = sensor_fusion[i][3];
+              double vy = sensor_fusion[i][4];
+              double check_speed = sqrt(vx*vx + vy*vy);
+              double check_car_s = sensor_fusion[i][5];
+              
+              check_car_s += ((double)prev_size * .02 * check_speed); // where the car will be in future
+              // check if the car is infront of us and distance equivalent approx 2s time distance travelled by ego car
+              if((check_car_s > car_s) && ((check_car_s-car_s) < 45))
+              {
+                // kind of ACC control with 2 second follow time
+                too_close = true;
+                // may be call path planner to see if lane change is possible
+              }
+            }
+          }
+          if (too_close)
+          {
+            v_ref -= 0.5;
+          }
+          else if(v_ref < 49.5)
+          {
+            v_ref += 0.5;
+          }
+          
+          // ######################################################################### //
+          // plane a smooth tranistion or trajectory for the car from map waypoints    //
+          // ######################################################################### //
         
           // using current or previous state to smooth out tranistion for the car
           vector<double> ptsx;
@@ -263,7 +307,7 @@ int main() {
           {
             //Use two points to make the path tangent to the car
             double prev_car_x = car_x - cos(car_yaw);
-            double prev_car_y = car_y - cos(car_yaw);
+            double prev_car_y = car_y - sin(car_yaw);
             
             ptsx.push_back(prev_car_x);
             ptsx.push_back(car_x);
@@ -277,14 +321,14 @@ int main() {
             ref_x = previous_path_x[prev_size - 1];
             ref_y = previous_path_y[prev_size - 1];
             
-            double prev_car_x = previous_path_x[prev_size - 2];
-            double prev_car_y = previous_path_y[prev_size - 2];
-            ref_yaw = atan2(ref_y -prev_car_y, ref_x - prev_car_x);
+            double ref_x_prev = previous_path_x[prev_size - 2];
+            double ref_y_prev = previous_path_y[prev_size - 2];
+            ref_yaw = atan2(ref_y -ref_y_prev, ref_x - ref_x_prev);
             
-            ptsx.push_back(prev_car_x);
-            ptsx.push_back(car_x);
-            ptsy.push_back(prev_car_y);
-            ptsy.push_back(car_y);
+            ptsx.push_back(ref_x_prev);
+            ptsx.push_back(ref_x);
+            ptsy.push_back(ref_y_prev);
+            ptsy.push_back(ref_y);
           }
           
           // create 3 more x and y points based on car fernets co-ordinate.
@@ -304,7 +348,7 @@ int main() {
           
           for(int i = 0; i < ptsx.size(); i++)
           {
-            // shift car refernce frame to local frame, such that angle is 0 degree
+            // shift and rotate car refernce frame to local frame, such that angle is 0 degree
             double shift_x = ptsx[i] - ref_x;
             double shift_y = ptsy[i] - ref_y;
             
@@ -348,7 +392,7 @@ int main() {
             double x_ref = x_point;
             double y_ref = y_point;
             
-            // rotate back to regular co-ordinates. back to global
+            // rotate and shift back to regular co-ordinates. back to global
             x_point = x_ref * cos(ref_yaw) - y_ref * sin(ref_yaw);
             y_point = x_ref * sin(ref_yaw) + y_ref * cos(ref_yaw);
             
