@@ -1,54 +1,6 @@
 dependencies: \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/main.cpp \
-  /usr/local/include/uWS/uWS.h /usr/local/include/uWS/Hub.h \
-  /usr/local/include/uWS/Group.h /usr/local/include/uWS/WebSocket.h \
-  /usr/local/include/uWS/WebSocketProtocol.h \
-  /usr/local/include/uWS/Networking.h \
-  /usr/local/opt/openssl/include/openssl/opensslv.h \
-  /usr/local/include/uWS/uUV.h /usr/local/include/uv.h \
-  /usr/local/include/uv-errno.h /usr/local/include/uv-version.h \
-  /usr/local/include/uv-unix.h /usr/local/include/uv-threadpool.h \
-  /usr/local/include/uv-darwin.h /usr/local/include/pthread-barrier.h \
-  /usr/local/opt/openssl/include/openssl/ssl.h \
-  /usr/local/opt/openssl/include/openssl/e_os2.h \
-  /usr/local/opt/openssl/include/openssl/opensslconf.h \
-  /usr/local/opt/openssl/include/openssl/comp.h \
-  /usr/local/opt/openssl/include/openssl/crypto.h \
-  /usr/local/opt/openssl/include/openssl/stack.h \
-  /usr/local/opt/openssl/include/openssl/safestack.h \
-  /usr/local/opt/openssl/include/openssl/ossl_typ.h \
-  /usr/local/opt/openssl/include/openssl/symhacks.h \
-  /usr/local/opt/openssl/include/openssl/bio.h \
-  /usr/local/opt/openssl/include/openssl/x509.h \
-  /usr/local/opt/openssl/include/openssl/buffer.h \
-  /usr/local/opt/openssl/include/openssl/evp.h \
-  /usr/local/opt/openssl/include/openssl/objects.h \
-  /usr/local/opt/openssl/include/openssl/obj_mac.h \
-  /usr/local/opt/openssl/include/openssl/asn1.h \
-  /usr/local/opt/openssl/include/openssl/bn.h \
-  /usr/local/opt/openssl/include/openssl/ec.h \
-  /usr/local/opt/openssl/include/openssl/ecdsa.h \
-  /usr/local/opt/openssl/include/openssl/ecdh.h \
-  /usr/local/opt/openssl/include/openssl/rsa.h \
-  /usr/local/opt/openssl/include/openssl/dsa.h \
-  /usr/local/opt/openssl/include/openssl/dh.h \
-  /usr/local/opt/openssl/include/openssl/sha.h \
-  /usr/local/opt/openssl/include/openssl/x509_vfy.h \
-  /usr/local/opt/openssl/include/openssl/lhash.h \
-  /usr/local/opt/openssl/include/openssl/pkcs7.h \
-  /usr/local/opt/openssl/include/openssl/pem.h \
-  /usr/local/opt/openssl/include/openssl/pem2.h \
-  /usr/local/opt/openssl/include/openssl/hmac.h \
-  /usr/local/opt/openssl/include/openssl/kssl.h \
-  /usr/local/opt/openssl/include/openssl/ssl2.h \
-  /usr/local/opt/openssl/include/openssl/ssl3.h \
-  /usr/local/opt/openssl/include/openssl/tls1.h \
-  /usr/local/opt/openssl/include/openssl/dtls1.h \
-  /usr/local/opt/openssl/include/openssl/pqueue.h \
-  /usr/local/opt/openssl/include/openssl/ssl23.h \
-  /usr/local/opt/openssl/include/openssl/srtp.h \
-  /usr/local/include/uWS/Socket.h /usr/local/include/uWS/HTTPSocket.h \
-  /usr/local/include/uWS/Extensions.h /usr/local/include/uWS/Node.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/jmt.cpp \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Dense \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Core \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Core/util/Macros.h \
@@ -161,10 +113,18 @@ dependencies: \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Core/ArrayWrapper.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Core/GlobalFunctions.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Core/util/ReenableStupidWarnings.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/QR \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/LU \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/misc/Kernel.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/misc/Image.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/LU/FullPivLU.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/LU/PartialPivLU.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/LU/Determinant.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/LU/InverseImpl.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/LU/arch/Inverse_SSE.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Cholesky \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Cholesky/LLT.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Cholesky/LDLT.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/QR \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Jacobi \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Jacobi/Jacobi.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Householder \
@@ -175,8 +135,38 @@ dependencies: \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/QR/FullPivHouseholderQR.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/QR/ColPivHouseholderQR.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/json.hpp \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/spline.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/constants.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/vehicle.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/interpolator.h
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/SVD \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/misc/RealSvd2x2.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/SVD/UpperBidiagonalization.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/SVD/SVDBase.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/SVD/JacobiSVD.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/SVD/BDCSVD.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Geometry \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/OrthoMethods.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/EulerAngles.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Homogeneous.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/RotationBase.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Rotation2D.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Quaternion.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/AngleAxis.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Transform.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Translation.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Scaling.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Hyperplane.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/ParametrizedLine.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/AlignedBox.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/Umeyama.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Geometry/arch/Geometry_SSE.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/Eigenvalues \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/RealSchur.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/./HessenbergDecomposition.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/EigenSolver.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/ComplexSchur.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/RealQZ.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/jmt.h

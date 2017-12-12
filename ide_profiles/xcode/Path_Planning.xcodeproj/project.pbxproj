@@ -70,6 +70,7 @@
 		73D604AD7F214BDA86901669 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		750686B71FD98C0B00884471 /* cost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = cost.h; path = src/cost.h; sourceTree = "<group>"; };
 		750686B81FD98D9A00884471 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = constants.h; path = src/constants.h; sourceTree = "<group>"; };
+		7567C32E1FDDBF9E0074A2B2 /* interpolator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = interpolator.h; path = src/interpolator.h; sourceTree = "<group>"; };
 		7589A22C1FDD0516007A5E9A /* jmt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = jmt.cpp; path = src/jmt.cpp; sourceTree = "<group>"; };
 		7589A2311FDD0A74007A5E9A /* jmt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = jmt.h; path = src/jmt.h; sourceTree = "<group>"; };
 		7589A2321FDD0C12007A5E9A /* vehicle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vehicle.cpp; path = src/vehicle.cpp; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 				75B697B71FD46AF4003614C8 /* json.hpp */,
 				7589A2311FDD0A74007A5E9A /* jmt.h */,
 				7589A2351FDD0C47007A5E9A /* vehicle.h */,
+				7567C32E1FDDBF9E0074A2B2 /* interpolator.h */,
 			);
 			name = "Header Files";
 			sourceTree = "<group>";

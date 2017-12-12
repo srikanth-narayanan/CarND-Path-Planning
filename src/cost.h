@@ -21,7 +21,7 @@ using namespace std;
 //                                  Helpers                                   //
 //############################################################################//
 
-/*
+/**
 A function that returns a value between 0 and 1 for x in the
 range [0, infinity] and -1 to 1 for x in the range [-infinity, infinity].
 */
@@ -31,7 +31,7 @@ double logistic(double x)
   return 2.0 / (1 + exp(-x)) - 1.0;
 }
 
-/*
+/**
  A function that calculates the nearest distance to an object from its s and d
  co-ordinates
  */
@@ -47,7 +47,7 @@ double nearest_approach(vector<double> s_traj, vector<double> d_traj, vector<vec
   return closest;
 }
 
-/*
+/**
  A function that calculates the minimum of all nearest distance to all objects.
  Prediction is a key, value mapped pair, where first value is key, sensor id and
  second value is predicted trajector s and d
@@ -64,7 +64,7 @@ double nearest_approach_to_any_vehicle(vector<double> s_traj, vector<double> d_t
   return closest;
 }
 
-/*
+/**
  A function that calculates the minimum of all nearest distance to all objects
  in my own lane, becasue there could be multiple vehicle in own lane.
  Prediction is a key, value mapped pair, where first value is key, sensor id and
@@ -88,7 +88,7 @@ double nearest_approach_to_any_vehicle_own_lane(vector<double> s_traj, vector<do
   return closest;
 }
 
-/*
+/**
  A function to return derivatives of vectors with respect to time DT
  */
 
@@ -108,7 +108,7 @@ vector<double> differentiate(vector<double> quantity)
 //                               Cost Functions                               //
 //############################################################################//
 
-/*
+/**
  A function that Penalizes trajectories that span a duration which is longer or
  shorter than the duration requested.
  */
@@ -117,7 +117,7 @@ double time_diff_cost(double target_time, double actual_time)
   return logistic(fabs(actual-time - target_time) / target_time);
 }
 
-/*
+/**
  A function that Penalizes trajectories whose s coordinate (and derivatives)
  differ from the goal. Receive target s as s, s_dot and s_ddot
  */
@@ -137,7 +137,7 @@ double s_diff_cost(vector<double> s_traj, vector<double> target_s)
   return logistic(cost);
 }
 
-/*
+/**
  A function that penalizes collision other vehicles.
  */
 double collision_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
@@ -153,7 +153,7 @@ double collision_cost(vector<double> s_traj, vector<double> d_traj, map<int, vec
   }
 }
 
-/*
+/**
  A function that penalizes getting close to other vehicles
  */
 double buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
@@ -162,7 +162,7 @@ double buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector
   return logistic(2 * VEHICLE_RADIUS / nearest_dist);
 }
 
-/*
+/**
  A function that penalizes getting close to other vehicle in own lane
  */
 double in_lane_buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
@@ -172,7 +172,7 @@ double in_lane_buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int
   return logistic(2 * VEHICLE_RADIUS / nearest);
 }
 
-/*
+/**
  A function that penalizes exceeding speed limits. If ds/ dt exceeds speed limit
  penalise the cost.
  */
@@ -188,7 +188,7 @@ double exceed_speed_limit_cost(vector<double> s_traj)
   }
 }
 
-/*
+/**
  A function that rewards high average speeds
  */
 double efficiency_cost(vector<double> s_traj)
@@ -198,7 +198,7 @@ double efficiency_cost(vector<double> s_traj)
   return logistic((SPEED_LIMIT - s_dot_latest) / SPEED_LIMIT);
 }
 
-/*
+/**
  A function that penalises exceeding max instaneous acceleration
  */
 double max_accel_cost(vector<double> s_traj)
@@ -215,7 +215,7 @@ double max_accel_cost(vector<double> s_traj)
   return 0;
 }
 
-/*
+/**
  A function that penalises higher average acceleration
  */
 double avg_accel_cost(vector<double> s_traj)
@@ -231,7 +231,7 @@ double avg_accel_cost(vector<double> s_traj)
   return logistic(avg_accel / EXPECTED_ACC_IN_ONE_SEC);
 }
 
-/*
+/**
  A function that penalises exceeding max instaneous jerk
  */
 double max_jerk_cost(vector<double> s_traj)
@@ -249,7 +249,7 @@ double max_jerk_cost(vector<double> s_traj)
   return 0;
 }
 
-/*
+/**
  A function that penalises higher average jerk
  */
 double avg_jerk_cost(vector<double> s_traj)
@@ -266,7 +266,7 @@ double avg_jerk_cost(vector<double> s_traj)
   return logistic(avg_jerk / EXPECTED_JERK_IN_ONE_SEC);
 }
 
-/*
+/**
  A function that calculates the total cost
  */
 double calc_total_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)

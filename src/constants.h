@@ -10,6 +10,7 @@
 
 #define TRACK_LENGTH 6945.554   // Total S distance of the circuit
 #define VEHICLE_RADIUS 1.25     // A safe radius bubble around the vehicle in meters
+#define FOLLOWING_DISTANCE 10   // meters in frenet s
 
 #define MAX_JERK 10             // m/s3
 #define MAX_ACCEL 10            // m/s2
@@ -19,6 +20,10 @@
 
 #define SPEED_LIMIT 22          // m/s
 #define VELOCITY_INCRE_LIMIT  0.225
+
+#define INTERPOLATION_AHEAD 10  // Number of points
+#define INTERPOLATION_BEHIND 5 // Number of points
+#define POINTS_INCR 0.5 // each point on the spline is split by 0.5 meters in Frenet s
 
 // sigma values for perturbing targets
 #define SIGMA_S 10.0            // s

@@ -160,9 +160,12 @@ CMakeFiles/path_planning.dir/src/main.cpp.o
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/plugins/CommonCwiseUnaryOps.h
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/Eigen-3.3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+ /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/constants.h
+ /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/interpolator.h
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/json.hpp
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/main.cpp
  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/spline.h
+ /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/vehicle.h
  /usr/local/include/pthread-barrier.h
  /usr/local/include/uWS/Extensions.h
  /usr/local/include/uWS/Group.h

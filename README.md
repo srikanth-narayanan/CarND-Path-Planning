@@ -1,5 +1,33 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
+
+### MAP DATA
+Waypoints are middle of yellow line in the center of the highway. 181 way points.
+6945.554 meters about 4.32 miles. Total 6 lanes 3 in each direction. Lane is 4 meter wide.
+d from the waypoint multipled by 2 is the middle of left lane, multiplied by 6 will be middle lane and multiplied by 10 will be right most lane.
+Global X,
+Global Y,
+Frenet s,
+Frenet dx,
+Frenet dy
+
+### Sensor Fusion
+Vehicle ID,
+Global X,
+Global Y,
+Global vx, (m/s)
+Global vy, (m/s)
+Frenet s,
+Frenet d
+
+### Car Data
+Global X,
+Global Y,
+Frenet s,
+Frenet d,
+yaw angle,
+speed in mph
+
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).
