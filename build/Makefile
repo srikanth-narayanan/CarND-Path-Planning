@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CMake.app/Contents/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.9.4/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.9.4/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Pla
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Applications/CMake.app/Contents/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.9.4/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/Applications/CMake.app/Contents/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.9.4/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -123,6 +123,33 @@ path_planning/fast:
 	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/build
 .PHONY : path_planning/fast
 
+src/jmt.o: src/jmt.cpp.o
+
+.PHONY : src/jmt.o
+
+# target to build an object file
+src/jmt.cpp.o:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/jmt.cpp.o
+.PHONY : src/jmt.cpp.o
+
+src/jmt.i: src/jmt.cpp.i
+
+.PHONY : src/jmt.i
+
+# target to preprocess a source file
+src/jmt.cpp.i:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/jmt.cpp.i
+.PHONY : src/jmt.cpp.i
+
+src/jmt.s: src/jmt.cpp.s
+
+.PHONY : src/jmt.s
+
+# target to generate assembly for a file
+src/jmt.cpp.s:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/jmt.cpp.s
+.PHONY : src/jmt.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -150,6 +177,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/vehicle.o: src/vehicle.cpp.o
+
+.PHONY : src/vehicle.o
+
+# target to build an object file
+src/vehicle.cpp.o:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/vehicle.cpp.o
+.PHONY : src/vehicle.cpp.o
+
+src/vehicle.i: src/vehicle.cpp.i
+
+.PHONY : src/vehicle.i
+
+# target to preprocess a source file
+src/vehicle.cpp.i:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/vehicle.cpp.i
+.PHONY : src/vehicle.cpp.i
+
+src/vehicle.s: src/vehicle.cpp.s
+
+.PHONY : src/vehicle.s
+
+# target to generate assembly for a file
+src/vehicle.cpp.s:
+	$(MAKE) -f CMakeFiles/path_planning.dir/build.make CMakeFiles/path_planning.dir/src/vehicle.cpp.s
+.PHONY : src/vehicle.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,9 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... path_planning"
+	@echo "... src/jmt.o"
+	@echo "... src/jmt.i"
+	@echo "... src/jmt.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/vehicle.o"
+	@echo "... src/vehicle.i"
+	@echo "... src/vehicle.s"
 .PHONY : help
 
 

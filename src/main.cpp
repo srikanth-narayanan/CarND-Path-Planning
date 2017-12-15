@@ -12,6 +12,7 @@
 #include "constants.h"
 #include "vehicle.h"
 #include "interpolator.h"
+#include "cost.h"
 
 using namespace std;
 
@@ -69,15 +70,11 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
 {
 
 	int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
-
 	double map_x = maps_x[closestWaypoint];
 	double map_y = maps_y[closestWaypoint];
-
 	double heading = atan2((map_y-y),(map_x-x));
-
 	double angle = fabs(theta-heading);
   angle = min(2*pi() - angle, angle);
-
   if(angle > pi()/4)
   {
     closestWaypoint++;
@@ -86,85 +83,65 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
       closestWaypoint = 0;
     }
   }
-
   return closestWaypoint;
 }
 
 // Transform from Cartesian x,y coordinates to Frenet s,d coordinates
-vector<double> getFrenet(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y)
+vector<double> getFrenet(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y, vector<double> maps_s)
 {
 	int next_wp = NextWaypoint(x,y, theta, maps_x,maps_y);
-
 	int prev_wp;
 	prev_wp = next_wp-1;
 	if(next_wp == 0)
 	{
 		prev_wp  = maps_x.size()-1;
 	}
-
 	double n_x = maps_x[next_wp]-maps_x[prev_wp];
 	double n_y = maps_y[next_wp]-maps_y[prev_wp];
 	double x_x = x - maps_x[prev_wp];
 	double x_y = y - maps_y[prev_wp];
-
 	// find the projection of x onto n
 	double proj_norm = (x_x*n_x+x_y*n_y)/(n_x*n_x+n_y*n_y);
 	double proj_x = proj_norm*n_x;
 	double proj_y = proj_norm*n_y;
-
 	double frenet_d = distance(x_x,x_y,proj_x,proj_y);
-
 	//see if d value is positive or negative by comparing it to a center point
-
 	double center_x = 1000-maps_x[prev_wp];
 	double center_y = 2000-maps_y[prev_wp];
 	double centerToPos = distance(center_x,center_y,x_x,x_y);
 	double centerToRef = distance(center_x,center_y,proj_x,proj_y);
-
 	if(centerToPos <= centerToRef)
 	{
 		frenet_d *= -1;
 	}
-
 	// calculate s value
-	double frenet_s = 0;
+	double frenet_s = maps_s[0];
 	for(int i = 0; i < prev_wp; i++)
 	{
 		frenet_s += distance(maps_x[i],maps_y[i],maps_x[i+1],maps_y[i+1]);
 	}
-
 	frenet_s += distance(0,0,proj_x,proj_y);
-
 	return {frenet_s,frenet_d};
-
 }
 
 // Transform from Frenet s,d coordinates to Cartesian x,y
 vector<double> getXY(double s, double d, const vector<double> &maps_s, const vector<double> &maps_x, const vector<double> &maps_y)
 {
 	int prev_wp = -1;
-
 	while(s > maps_s[prev_wp+1] && (prev_wp < (int)(maps_s.size()-1) ))
 	{
 		prev_wp++;
 	}
-
 	int wp2 = (prev_wp+1)%maps_x.size();
-
 	double heading = atan2((maps_y[wp2]-maps_y[prev_wp]),(maps_x[wp2]-maps_x[prev_wp]));
 	// the x,y,s along the segment
 	double seg_s = (s-maps_s[prev_wp]);
-
 	double seg_x = maps_x[prev_wp]+seg_s*cos(heading);
 	double seg_y = maps_y[prev_wp]+seg_s*sin(heading);
-
 	double perp_heading = heading-pi()/2;
-
 	double x = seg_x + d*cos(perp_heading);
 	double y = seg_y + d*sin(perp_heading);
-
 	return {x,y};
-
 }
 
 int main() {
@@ -183,7 +160,6 @@ int main() {
   double max_s = 6945.554;
   
   Vehicle Ego_Veh = Vehicle();
-
   ifstream in_map_(map_file_.c_str(), ifstream::in);
 
   string line;
@@ -206,8 +182,7 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
   
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy,&Ego_Veh](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
-                     uWS::OpCode opCode) {
+  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy,&Ego_Veh](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -258,12 +233,16 @@ int main() {
           for(int i = -INTERPOLATION_BEHIND; i < INTERPOLATION_AHEAD; i++)
           {
             int current_idx = (next_waypoint_idx + i) % num_waypoints;
+            if(current_idx < 0)
+            {
+              current_idx += num_waypoints;
+            }
             double current_s = map_waypoints_s[current_idx];
             double closest_s = map_waypoints_s[next_waypoint_idx];
             // wrap up s for the track
             if (i < 0 && current_s > closest_s)
             {
-              // subtract track lenght to get absolute
+              // subtract track length to get absolute
               current_s -= TRACK_LENGTH;
             }
             if (i > 0 && current_s < closest_s)
@@ -310,8 +289,8 @@ int main() {
           double pos_x1, pos_y1, pos_x2, pos_y2, pos_x3, pos_y3, vx1, vy1, vx2, vy2, ax1, ay1, angle;
           
           // one has to have a minimum of 4 points from the previous path to extract the ego vehicle parameters
-          int prev_size_avail = min(4, (int)previous_path_x.size());
-          double pre_traj_duration = prev_size_avail * DT;
+          int prev_size_avail = min(POINTS_FROM_PREVIOUS, (int)previous_path_x.size());
+          double pre_traj_duration = prev_size_avail * PATH_DT;
           
           // if not enough previous points just use default values
           if(prev_size_avail < 4)
@@ -332,8 +311,8 @@ int main() {
             pos_y1 = previous_path_y[prev_size_avail-1];
             pos_x2 = previous_path_x[prev_size_avail-2];
             pos_y2 = previous_path_y[prev_size_avail-2];
-            angle = atan2(pos_y2-pos_y1, pos_x2-pos_x1);
-            vector<double> frenet = getFrenet(pos_x1, pos_y1, angle, interpolated_x, interpolated_y);
+            angle = atan2(pos_y1-pos_y2, pos_x1-pos_x2);
+            vector<double> frenet = getFrenet(pos_x1, pos_y1, angle, interpolated_x, interpolated_y, interpolated_s);
             s = frenet[0];
             d = frenet[1];
             int next_interp_idx = NextWaypoint(pos_x1, pos_y1, angle, interpolated_x, interpolated_y);
@@ -341,27 +320,22 @@ int main() {
             double dy = interpolated_dy[next_interp_idx - 1];
             double sx = -dy;
             double sy = dx;
-            vx1 = (pos_x1 - pos_x2) / DT;
-            vy1 = (pos_y1 - pos_y2) / DT;
+            vx1 = (pos_x1 - pos_x2) / PATH_DT;
+            vy1 = (pos_y1 - pos_y2) / PATH_DT;
             s_dot = vx1 * sx + vy1 * sy;
             d_dot = vx1 * dx + vy1 * dy;
             pos_x3 = previous_path_x[prev_size_avail-3];
             pos_y3 = previous_path_y[prev_size_avail-3];
-            vx2 = (pos_x2 - pos_x3) / DT;
-            vy2 = (pos_y2 - pos_y3) / DT;
-            ax1 = (vx1 - vx2) / DT;
-            ay1 = (vy1 - vy2) / DT;
+            vx2 = (pos_x2 - pos_x3) / PATH_DT;
+            vy2 = (pos_y2 - pos_y3) / PATH_DT;
+            ax1 = (vx1 - vx2) / PATH_DT;
+            ay1 = (vy1 - vy2) / PATH_DT;
             s_ddot = ax1 * sx + ay1 * sy;
             d_ddot = ax1 * dx + ay1 * dy;
           }
           
           // Update Ego Vehicle State
-          Ego_Veh.s = s;              // S position of the own car
-          Ego_Veh.d = d;              // D position of the own car
-          Ego_Veh.s_dot = s_dot;      // s_dot of the own car
-          Ego_Veh.d_dot = d_dot;      // d_dot of the own car
-          Ego_Veh.s_ddot = s_ddot;    // s_dot_dot of the own car
-          Ego_Veh.d_ddot = d_ddot;    // d_dot_dot of the own car
+          Ego_Veh.Init(s, s_dot, s_ddot, d, d_dot, d_ddot);
           
           // ######################################################################### //
           // Using sensor fusion module to plan the tracjectory or Collision avoidance //
@@ -371,13 +345,14 @@ int main() {
            Vehicle ID, Global X, Global Y, Global vx, (m/s), Global vy, (m/s),0
            Frenet s, Frenet d
           */
-          double traj_duration = N_SAMPLES * DT - prev_size_avail * DT;
+          double traj_duration = N_SAMPLES * DT - prev_size_avail * PATH_DT;
           vector<Vehicle> objects;
           map<int, vector<vector<double>>> predictions;
           for(auto sf:sensor_fusion)
           {
             double obj_vel = sqrt(pow((double)sf[3], 2) + pow((double)sf[4], 2));
-            Vehicle obj = Vehicle(sf[5],obj_vel,0,sf[6],0,0);
+            Vehicle obj = Vehicle();
+            obj.Init(sf[5],obj_vel,0,sf[6],0,0);
             objects.push_back(obj);
             vector<vector<double>> predict = obj.generate_predictions(pre_traj_duration, traj_duration);
             int obj_id = sf[0];
@@ -388,7 +363,7 @@ int main() {
           bool car_left = false;
           bool car_right = false;
           bool car_front = false;
-          for(auto object:objects)
+          for(Vehicle object:objects)
           {
             double delta_s = fabs(object.s - car_s);
             if(delta_s < FOLLOWING_DISTANCE)
@@ -415,11 +390,113 @@ int main() {
           Ego_Veh.update_states(car_left, car_right);
           
           // ######################################################################### //
-          // plane a smooth tranistion or trajectory for the car from map waypoints    //
+          // Optimise the best trajectory and state for the Ego vehicle based on JMT   //
           // ######################################################################### //
         
+          vector<vector<double>> optimised_traj_frenet, optimised_s_d;
+          double best_cost = 999999;
+          string optimised_state = "";
           
+          // Get target trajectory for every available state for the car
+          for(string state: Ego_Veh.allowed_states)
+          {
+            vector<vector<double>> target_s_d = Ego_Veh._get_target_on_state(state, predictions, traj_duration, car_front);
+            vector<vector<double>> plaussible_traj = Ego_Veh.generate_trajectory(target_s_d, traj_duration);
+            double traj_cost = calc_total_cost(plaussible_traj[0], plaussible_traj[1], predictions);
+            if(traj_cost < best_cost)
+            {
+              best_cost = traj_cost;
+              optimised_traj_frenet = plaussible_traj;
+              optimised_state = state;
+              optimised_s_d = target_s_d;
+            }
+          }
           
+          // ######################################################################### //
+          // plan a smooth tranistion or trajectory for the car from optimised JMT     //
+          // ######################################################################### //
+          vector<double> sample_s_traj, sample_x_traj, sample_y_traj, smooth_s_traj, smooth_x_traj, smooth_y_traj;
+          double last_s = s - s_dot * PATH_DT;
+          if(prev_size_avail >= 2)
+          {
+            // first point
+            sample_s_traj.push_back(last_s);
+            sample_x_traj.push_back(previous_path_x[prev_size_avail-2]);
+            sample_y_traj.push_back(previous_path_y[prev_size_avail-2]);
+            //second point
+            sample_s_traj.push_back(s);
+            sample_x_traj.push_back(previous_path_x[prev_size_avail-1]);
+            sample_y_traj.push_back(previous_path_y[prev_size_avail-1]);
+          }
+          else
+          {
+            double last_s = s - 1;
+            double last_x = pos_x1 - cos(angle);
+            double last_y = pos_y1 - cos(angle);
+            //first point
+            sample_s_traj.push_back(last_s);
+            sample_x_traj.push_back(last_x);
+            sample_y_traj.push_back(last_y);
+            //second point
+            sample_s_traj.push_back(s);
+            sample_x_traj.push_back(pos_x1);
+            sample_y_traj.push_back(pos_y1);
+          }
+          
+          // add 30 and 60 meters to generate the future points of the trajectory
+          double future_s1 = s + 30;
+          double future_d1 = optimised_s_d[1][0];
+          vector<double> future_xy1 = getXY(future_s1, future_d1, interpolated_s, interpolated_x, interpolated_y);
+          double future_x1 = future_xy1[0];
+          double future_y1 = future_xy1[1];
+          // third point
+          sample_s_traj.push_back(future_s1);
+          sample_x_traj.push_back(future_x1);
+          sample_y_traj.push_back(future_y1);
+          double future_s2 = future_s1 + 30;
+          double future_d2 = future_d1;
+          vector<double> future_xy2 = getXY(future_s2, future_d2, interpolated_s, interpolated_x, interpolated_y);
+          double future_x2 = future_xy2[0];
+          double future_y2 = future_xy2[1];
+          // fourth point
+          sample_s_traj.push_back(future_s2);
+          sample_x_traj.push_back(future_x2);
+          sample_y_traj.push_back(future_y2);
+          
+          // Further s values are based on the velcoity increment needed
+          double future_s_dot = optimised_s_d[0][1];
+          double current_s = s;
+          double current_v = s_dot;
+          double current_a = s_ddot;
+          for(int i = 0; i < (POINTS_IN_SPLINE - prev_size_avail); i++)
+          {
+            double vel_icr, acc_icr;
+            if(fabs(future_s_dot - current_v) < 2 * VELOCITY_INCRE_LIMIT)
+            {
+              vel_icr = 0;
+            }
+            else
+            {
+              vel_icr = (future_s_dot - current_v) / (fabs(future_s_dot - current_v)) * VELOCITY_INCRE_LIMIT;
+            }
+            current_v += vel_icr;
+            current_s += current_v * PATH_DT;
+            smooth_s_traj.push_back(current_s);
+          }
+          smooth_x_traj = interpolator_func(sample_s_traj, sample_x_traj, smooth_s_traj);
+          smooth_y_traj = interpolator_func(sample_s_traj, sample_y_traj, smooth_s_traj);
+          
+          for(int i = 0; i < prev_size_avail; i++)
+          {
+            next_x_vals.push_back(previous_path_x[i]);
+            next_y_vals.push_back(previous_path_y[i]);
+          }
+          
+          for(int i = 0; i < smooth_x_traj.size(); i++)
+          {
+            next_x_vals.push_back(smooth_x_traj[i]);
+            next_y_vals.push_back(smooth_y_traj[i]);
+          }
 
           // TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           msgJson["next_x"] = next_x_vals;

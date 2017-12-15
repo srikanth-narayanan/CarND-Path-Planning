@@ -77,12 +77,15 @@ double nearest_approach_to_any_vehicle_own_lane(vector<double> s_traj, vector<do
     double last_d = d_traj[d_traj.size() - 1];
     int my_lane = last_d / 4;
     vector<vector<double>> pred_traj = prediction.second;
-    double pred_last_d = pred_traj[pre_traj.size() - 1];
+    double pred_last_d = pred_traj[pred_traj.size() - 1][1];
     int pred_lane = pred_last_d / 4;
     if(my_lane == pred_lane)
     {
       double curr_dist = nearest_approach(s_traj, d_traj, prediction.second);
-      closet = curr_dist;
+      if (curr_dist < closest && curr_dist < 120)
+      {
+        closest = curr_dist;
+      }
     }
   }
   return closest;
@@ -114,7 +117,7 @@ vector<double> differentiate(vector<double> quantity)
  */
 double time_diff_cost(double target_time, double actual_time)
 {
-  return logistic(fabs(actual-time - target_time) / target_time);
+  return logistic(fabs(actual_time - target_time) / target_time);
 }
 
 /**
@@ -145,11 +148,11 @@ double collision_cost(vector<double> s_traj, vector<double> d_traj, map<int, vec
   double nearest_dist = nearest_approach_to_any_vehicle(s_traj, d_traj, predictions);
   if (nearest_dist < 2 * VEHICLE_RADIUS)
   {
-    return 1.0
+    return 1.0;
   }
   else
   {
-    return 0.0
+    return 0.0;
   }
 }
 
@@ -167,8 +170,7 @@ double buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector
  */
 double in_lane_buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
 {
-  double nearest = nearest_approach_to_any_vehicle_own_lane(vector<double> s_traj, vector<double> d_traj,
-                                                            map<int, vector<vector<double>>> predictions);
+  double nearest = nearest_approach_to_any_vehicle_own_lane(s_traj, d_traj, predictions);
   return logistic(2 * VEHICLE_RADIUS / nearest);
 }
 
@@ -186,6 +188,7 @@ double exceed_speed_limit_cost(vector<double> s_traj)
       return 1;
     }
   }
+  return 0;
 }
 
 /**
@@ -267,6 +270,16 @@ double avg_jerk_cost(vector<double> s_traj)
 }
 
 /**
+ A function that penalises not trying to be in middle lane.
+ */
+double not_maintaining_middle(vector<double> d_traj)
+{
+  double last_d = d_traj[d_traj.size() - 1];
+  double delta_sqr_d = std::pow((last_d - 6), 2);
+  return logistic(delta_sqr_d); // d =6 is the middle lane
+}
+
+/**
  A function that calculates the total cost
  */
 double calc_total_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
@@ -276,8 +289,9 @@ double calc_total_cost(vector<double> s_traj, vector<double> d_traj, map<int, ve
   double buf_cost = buffer_cost(s_traj, d_traj, predictions);
   double in_lane_cost = in_lane_buffer_cost(s_traj, d_traj, predictions);
   double eff_cost = efficiency_cost(s_traj);
+  double not_mid_cost = not_maintaining_middle(d_traj);
   
-  total_cost += total_cost + coll_cost + buf_cost + eff_cost;
+  total_cost += coll_cost + buf_cost + in_lane_cost + eff_cost + not_mid_cost;
   
   return total_cost;
 }

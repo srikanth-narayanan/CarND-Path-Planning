@@ -179,4 +179,5 @@ dependencies: \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/spline.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/constants.h \
   /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/vehicle.h \
-  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/interpolator.h
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/interpolator.h \
+  /Users/srikanthnarayanan/Documents/GitHubRepos/CarND-Path-Planning/src/cost.h
