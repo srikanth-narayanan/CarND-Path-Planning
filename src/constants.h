@@ -40,6 +40,7 @@
 #define BUFFER_COST 10              // Cost of maintaining buffer with vehicles in other lane
 #define IN_LANE_BUFFER_COST 1000    // Cost of maintaining buffer with vehicle in own lane
 #define EFFICIENCY_COST 10000       // Cost of overall efficiency
+#define MIDDLE_LANE_COST 100
 
 #define MAX_INSTANTANEOUS_JERK 10   // Cost of maximum instaneous Jerk
 #define MAX_INSTANTANEOUS_ACCEL 10  // Cost of maximum instaneous accel

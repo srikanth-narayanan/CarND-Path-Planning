@@ -285,11 +285,11 @@ double not_maintaining_middle(vector<double> d_traj)
 double calc_total_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
 {
   double total_cost = 0.0;
-  double coll_cost = collision_cost(s_traj, d_traj, predictions);
-  double buf_cost = buffer_cost(s_traj, d_traj, predictions);
-  double in_lane_cost = in_lane_buffer_cost(s_traj, d_traj, predictions);
-  double eff_cost = efficiency_cost(s_traj);
-  double not_mid_cost = not_maintaining_middle(d_traj);
+  double coll_cost = collision_cost(s_traj, d_traj, predictions) * COLLISION_COST;
+  double buf_cost = buffer_cost(s_traj, d_traj, predictions) * BUFFER_COST;
+  double in_lane_cost = in_lane_buffer_cost(s_traj, d_traj, predictions) * IN_LANE_BUFFER_COST;
+  double eff_cost = efficiency_cost(s_traj) * EFFICIENCY_COST;
+  double not_mid_cost = not_maintaining_middle(d_traj) * MIDDLE_LANE_COST;
   
   total_cost += coll_cost + buf_cost + in_lane_cost + eff_cost + not_mid_cost;
   
