@@ -53,17 +53,13 @@ vector<double> get_jmt_coeffs(vector<double> start, vector <double> end, double 
   
   MatrixXd Ainv = A.inverse();
   
-  MatrixXd B = MatrixXd(3,1);
+  VectorXd B(3);
   B << end[0] - (start[0] + start[1]*T + .5*start[2]*T*T),
        end[1] - (start[1] + start[2]*T),
-       end[2] - start[2];
+       end[2] - (start[2]);
   
-  MatrixXd C = Ainv * B;
+  VectorXd C = Ainv * B;
   
-  vector <double> result = {start[0], start[1], .5*start[2]};
-  for(int i = 0; i < C.size(); i++)
-  {
-    result.push_back(C.data()[i]);
-  }
+  vector <double> result = {start[0], start[1], .5*start[2], C[0], C[1], C[2]};
   return result;
 }

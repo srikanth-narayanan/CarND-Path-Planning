@@ -88,17 +88,16 @@ void Vehicle::update_states(bool car_left, bool car_right)
 
 vector<vector<double>> Vehicle::_get_target_on_state(string state, map<int, vector<vector<double>>> predictions, double duration, bool car_front)
 {
+  int target_lane, ego_lane = this->d / 4;
+  double d;
   double d_dot = 0;
   double d_ddot = 0;
-  double s_dot = SPEED_LIMIT;
+  double s_dot = min(this->s_dot + MAX_INSTANTANEOUS_ACCEL/4 * duration, SPEED_LIMIT);
+  s_dot = SPEED_LIMIT;
   double s_ddot = 0;
   
   // Displacement = Ego displacement + Average Velocity * duration
-  s = this->s + (this->s_dot + s_dot)/2 * duration;
-  
-  // Lane 0, lane 1 and lane 2 ( three lanes)
-  int ego_lane = this->d / 4;
-  int target_lane = this->d / 4;
+  double s = this->s + (this->s_dot + s_dot)/2 * duration;
   
   if(state.compare("KL") == 0)
   {

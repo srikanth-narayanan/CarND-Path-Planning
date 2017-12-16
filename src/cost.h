@@ -170,8 +170,8 @@ double buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector
  */
 double in_lane_buffer_cost(vector<double> s_traj, vector<double> d_traj, map<int, vector<vector<double>>> predictions)
 {
-  double nearest = nearest_approach_to_any_vehicle_own_lane(s_traj, d_traj, predictions);
-  return logistic(2 * VEHICLE_RADIUS / nearest);
+  double nearest_dist = nearest_approach_to_any_vehicle_own_lane(s_traj, d_traj, predictions);
+  return logistic(2 * VEHICLE_RADIUS / nearest_dist);
 }
 
 /**

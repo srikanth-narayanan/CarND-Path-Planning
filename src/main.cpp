@@ -69,14 +69,14 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
 	double map_y = maps_y[closestWaypoint];
 	double heading = atan2((map_y-y),(map_x-x));
 	double angle = fabs(theta-heading);
-  //angle = min(2*pi() - angle, angle);
+  angle = min(2*pi() - angle, angle);
   if(angle > pi()/4)
   {
     closestWaypoint++;
-    //if (closestWaypoint == maps_x.size())
-    //{
-    //  closestWaypoint = 0;
-    //}
+    if (closestWaypoint == maps_x.size())
+    {
+      closestWaypoint = 0;
+    }
   }
   return closestWaypoint;
 }
@@ -353,7 +353,7 @@ int main() {
             int obj_id = sf[0];
             predictions[obj_id] = preds;
           }
-          
+          cout << "########### States ############" << endl;
           // Flags of car on different lanes
           bool car_left = false;
           bool car_right = false;
@@ -363,7 +363,7 @@ int main() {
             double delta_s = fabs(object.s - car_s);
             if(delta_s < FOLLOWING_DISTANCE)
             {
-              cout << "Delta S : " << delta_s << " - Closing a CAR in FRONT" << endl;
+              cout << "Delta S : " << delta_s << endl;
               double delta_d = object.d - car_d;
               if(delta_d > 2 && delta_d < 6)
               {
@@ -377,10 +377,12 @@ int main() {
               }
               else if(delta_d > -2 && delta_d < 2)
               {
+                cout << "Delta D : " << delta_d << " - Closing a CAR in FRONT" << endl;
                 car_front = true;
               }
             }
           }
+          
           // Update vehicle state based on object data
           Ego_Veh.update_states(car_left, car_right);
           
@@ -407,6 +409,10 @@ int main() {
             }
           }
           
+          for (int i=0; i < Ego_Veh.allowed_states.size(); i++)
+          {
+            cout << Ego_Veh.allowed_states[i] << endl;
+          }
           // ######################################################################### //
           // plan a smooth tranistion or trajectory for the car from optimised JMT     //
           // ######################################################################### //
@@ -480,6 +486,9 @@ int main() {
           }
           smooth_x_traj = interpolator_func(sample_s_traj, sample_x_traj, smooth_s_traj);
           smooth_y_traj = interpolator_func(sample_s_traj, sample_y_traj, smooth_s_traj);
+          
+          cout << "future_d : " << future_d2 << endl;
+          cout << "best_state : " << optimised_state << endl;
           
           for(int i = 0; i < prev_size_avail; i++)
           {

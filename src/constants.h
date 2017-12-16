@@ -18,7 +18,7 @@
 #define EXPECTED_MAX_JERK 2     // m/s3
 #define EXPECTED_MAX_ACCEL 1    // m/s2
 
-#define SPEED_LIMIT 21.5          // m/s
+#define SPEED_LIMIT 21.25          // m/s
 #define VELOCITY_INCRE_LIMIT  0.125
 
 #define INTERPOLATION_AHEAD 5  // Number of points
@@ -33,7 +33,6 @@
 #define SIGMA_D_DOT 0           // d_dot
 #define SIGMA_D_DDOT 0          // d_double_dot
 #define SIGMA_T 0.05            // T
-#define DT 0.20                 // Cycle time
 
 // weights of costs
 #define COLLISION_COST 99999       // Cost of colliding with another vehicle
@@ -50,5 +49,6 @@
 
 // Trajectory Length
 #define N_SAMPLES 20
+#define DT 0.20                 // Cycle time
 
 #endif /* CONSTANTS */
