@@ -27,7 +27,7 @@ public:
   double d;
   double d_dot;
   double d_ddot;
-  string current_state;
+  string state;
   vector<string> allowed_states;
   vector<double> s_traj_coeffs, d_traj_coeffs;
   

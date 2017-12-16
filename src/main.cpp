@@ -45,7 +45,6 @@ double distance(double x1, double y1, double x2, double y2)
 }
 int ClosestWaypoint(double x, double y, const vector<double> &maps_x, const vector<double> &maps_y)
 {
-
 	double closestLen = 100000; //large number
 	int closestWaypoint = 0;
 
@@ -59,29 +58,25 @@ int ClosestWaypoint(double x, double y, const vector<double> &maps_x, const vect
 			closestLen = dist;
 			closestWaypoint = i;
 		}
-
 	}
-
 	return closestWaypoint;
-
 }
 
 int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y)
 {
-
 	int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
 	double map_x = maps_x[closestWaypoint];
 	double map_y = maps_y[closestWaypoint];
 	double heading = atan2((map_y-y),(map_x-x));
 	double angle = fabs(theta-heading);
-  angle = min(2*pi() - angle, angle);
+  //angle = min(2*pi() - angle, angle);
   if(angle > pi()/4)
   {
     closestWaypoint++;
-    if (closestWaypoint == maps_x.size())
-    {
-      closestWaypoint = 0;
-    }
+    //if (closestWaypoint == maps_x.size())
+    //{
+    //  closestWaypoint = 0;
+    //}
   }
   return closestWaypoint;
 }
@@ -229,7 +224,7 @@ int main() {
           int num_waypoints = map_waypoints_x.size();
           int next_waypoint_idx = NextWaypoint(car_x, car_y, car_yaw, map_waypoints_x, map_waypoints_y);
           vector<double> roughpoints_x, roughpoints_y, roughpoints_s, roughpoints_dx, roughpoints_dy;
-          // generate 5 points behind and 10 points ahead of current car x and y spline points
+          // generate 5 points behind and 5 points ahead of current car x and y spline points
           for(int i = -INTERPOLATION_BEHIND; i < INTERPOLATION_AHEAD; i++)
           {
             int current_idx = (next_waypoint_idx + i) % num_waypoints;
@@ -348,15 +343,15 @@ int main() {
           double traj_duration = N_SAMPLES * DT - prev_size_avail * PATH_DT;
           vector<Vehicle> objects;
           map<int, vector<vector<double>>> predictions;
-          for(auto sf:sensor_fusion)
+          for(auto sf: sensor_fusion)
           {
             double obj_vel = sqrt(pow((double)sf[3], 2) + pow((double)sf[4], 2));
             Vehicle obj = Vehicle();
             obj.Init(sf[5],obj_vel,0,sf[6],0,0);
             objects.push_back(obj);
-            vector<vector<double>> predict = obj.generate_predictions(pre_traj_duration, traj_duration);
+            vector<vector<double>> preds = obj.generate_predictions(pre_traj_duration, traj_duration);
             int obj_id = sf[0];
-            predictions[obj_id] = predict;
+            predictions[obj_id] = preds;
           }
           
           // Flags of car on different lanes
@@ -432,7 +427,7 @@ int main() {
           {
             double last_s = s - 1;
             double last_x = pos_x1 - cos(angle);
-            double last_y = pos_y1 - cos(angle);
+            double last_y = pos_y1 - sin(angle);
             //first point
             sample_s_traj.push_back(last_s);
             sample_x_traj.push_back(last_x);

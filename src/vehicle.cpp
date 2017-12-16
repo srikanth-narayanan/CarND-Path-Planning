@@ -33,7 +33,7 @@ void Vehicle::Init(double s, double s_dot, double s_ddot, double d, double d_dot
   this->d = d;
   this->d_dot = d_dot;
   this->d_ddot = d_ddot;
-  this->current_state = "CS"; // CS - Constant Speed State is initial state before vehicle start
+  state = "CS"; // CS - Constant Speed State is initial state before vehicle start
 }
 
 /**
