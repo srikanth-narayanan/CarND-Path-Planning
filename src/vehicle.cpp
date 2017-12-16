@@ -47,7 +47,7 @@ vector<vector<double>> Vehicle::generate_predictions(double start_time, double d
   for(int i = 0; i < N_SAMPLES; i++)
   {
     double tm = start_time + (i * duration/N_SAMPLES);
-    double future_s = this->s + s_dot * tm;
+    double future_s = this->s + this->s_dot * tm;
     vector<double> s_d = {future_s, this->d};
     predictions.push_back(s_d);
   }
@@ -92,6 +92,7 @@ vector<vector<double>> Vehicle::_get_target_on_state(string state, map<int, vect
   double d_ddot = 0;
   double s_dot = SPEED_LIMIT;
   double s_ddot = 0;
+  
   // Displacement = Ego displacement + Average Velocity * duration
   s = this->s + (this->s_dot + s_dot)/2 * duration;
   
@@ -129,6 +130,12 @@ vector<vector<double>> Vehicle::_get_target_on_state(string state, map<int, vect
     }
     s = object_s - FOLLOWING_DISTANCE;
   }
+  // Slow down rapidly
+  if(car_front)
+  {
+    s_dot = 0.0;
+  }
+  
   // Do i need also an emergency brake ? What is the point w.r.t this project
   return {{s, s_dot, s_ddot},{d, d_dot, d_ddot}};
 }
@@ -141,7 +148,7 @@ vector<vector<double>> Vehicle::_get_target_on_state(string state, map<int, vect
 vector<double> Vehicle::_get_object_data(int target_lane, map<int, vector<vector<double>>> predictions, double duration)
 {
   double object_s_dot = 0;
-  double object_s = 999999;
+  double object_s = 99999;
   
   for(auto predict : predictions)
   {
@@ -153,10 +160,10 @@ vector<double> Vehicle::_get_object_data(int target_lane, map<int, vector<vector
       double sn = predict_trajectory[predict_trajectory.size() - 1][0];
       double sn_1 = predict_trajectory[predict_trajectory.size() - 2][0];
       double delta_t = duration / N_SAMPLES;
-      double s_dot = (s0 - sn_1) / delta_t;
-      if (s0 < object_s && s0 > this->s)
+      double s_dot = (sn - sn_1) / delta_t;
+      if (sn < object_s && s0 > this->s)
       {
-        object_s = s0;
+        object_s = sn;
         object_s_dot = s_dot;
       }
     }
