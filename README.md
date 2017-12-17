@@ -1,15 +1,26 @@
 # CarND-Path-Planning-Project
-Self-Driving Car Engineer Nanodegree Program
 
-### MAP DATA
-Waypoints are middle of yellow line in the center of the highway. 181 way points.
-6945.554 meters about 4.32 miles. Total 6 lanes 3 in each direction. Lane is 4 meter wide.
-d from the waypoint multipled by 2 is the middle of left lane, multiplied by 6 will be middle lane and multiplied by 10 will be right most lane.
-Global X,
-Global Y,
-Frenet s,
-Frenet dx,
-Frenet dy
+## Introduction
+
+The scope of the project is to autonomously drive the car around the highway track. The track involves an highway with 3 lanes on each side. The simulator provides sensor fusion data about all the other car objects around the own vehicle. The project involves in the car driving at a reasonable speed but not exceeding the speed limits or not too slow unless obstructed by traffic around.  The car has to make necessary lane changes as needed in a safe manner. The total accelration must not exceed 10 m/s2 and total jerk cannot exceed 10 m/s3. The other key criterias for the car to follow are to not to cause collision with any other car in the highway and not to spend more than 3 seconds outside the lanes or on the lane markings.
+
+## Implementation Steps
+
+The implementation of path planning logic is done in the following steps.
+
+- Create the waypoints of the near by area from the map data
+- Determine the ego car parameters and predict the path of the car.
+- Based on the sensor fusion data predict the path of the other cars on the road.
+- Determine the best possible trajectory for the ego car.
+- Generate the optimum trajectory and feed it to the simulator.
+
+### Generation of nearby waypoints
+
+The waypoints for the entire track is included as a map data in the '''highway_map.csv''' file. The waypoints are 30 meters apart. The waypoints are middle of the yellow line in the center of the highway. There are a total of 181 waypoints. The total distance in frenet co-ordinate system is 6945.554 meters or 4.32 miles. Each lane is 4 meter wide and the frenet d co-ordinates are based from the center of the yellow lines.  The map data is represented as global x, global y, frenet s, frenet dx and frenet dy. The interpolated data is created with 0.5 meters apart and 8 waypoints ahead and behind the ego vehicle. The '''getFrenet''' method is used to compensate for the begining and end of the track.
+
+### Determine Ego vehicle parameters and generation of Vehicle object
+
+
 
 ### Sensor Fusion
 Vehicle ID,
