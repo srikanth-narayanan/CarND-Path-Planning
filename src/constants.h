@@ -10,8 +10,8 @@
 
 #define TRACK_LENGTH 6945.554   // Total S distance of the circuit
 #define VEHICLE_RADIUS 1.25     // A safe radius bubble around the vehicle in meters
-#define FOLLOWING_DISTANCE 8.0  // meters in frenet s
-#define POINTS_IN_SPLINE 50     // points the final trajectory is made. smooth
+#define FOLLOWING_DISTANCE 10.0  // meters in frenet s
+#define POINTS_IN_SPLINE 60     // points the final trajectory is made. smooth
 #define PATH_DT 0.02            // Path distance intreval in seconds
 #define POINTS_FROM_PREVIOUS 25 // number of points to keep from previous path
 
@@ -37,8 +37,8 @@
 // weights of costs
 #define COLLISION_COST 99999       // Cost of colliding with another vehicle
 #define BUFFER_COST 10              // Cost of maintaining buffer with vehicles in other lane
-#define IN_LANE_BUFFER_COST 1000    // Cost of maintaining buffer with vehicle in own lane
-#define EFFICIENCY_COST 10000       // Cost of overall efficiency
+#define IN_LANE_BUFFER_COST 10000    // Cost of maintaining buffer with vehicle in own lane
+#define EFFICIENCY_COST 1000       // Cost of overall efficiency
 #define MIDDLE_LANE_COST 100
 
 #define MAX_INSTANTANEOUS_JERK 10   // Cost of maximum instaneous Jerk

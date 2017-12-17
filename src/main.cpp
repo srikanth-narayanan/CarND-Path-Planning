@@ -69,14 +69,14 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
 	double map_y = maps_y[closestWaypoint];
 	double heading = atan2((map_y-y),(map_x-x));
 	double angle = fabs(theta-heading);
-  angle = min(2*pi() - angle, angle);
+  //angle = min(2*pi() - angle, angle);
   if(angle > pi()/4)
   {
     closestWaypoint++;
-    if (closestWaypoint == maps_x.size())
-    {
-      closestWaypoint = 0;
-    }
+    //if (closestWaypoint == maps_x.size())
+    //{
+    //  closestWaypoint = 0;
+    //}
   }
   return closestWaypoint;
 }
@@ -454,6 +454,7 @@ int main() {
           sample_s_traj.push_back(future_s1);
           sample_x_traj.push_back(future_x1);
           sample_y_traj.push_back(future_y1);
+          
           double future_s2 = future_s1 + 30;
           double future_d2 = future_d1;
           vector<double> future_xy2 = getXY(future_s2, future_d2, interpolated_s, interpolated_x, interpolated_y);
@@ -463,6 +464,17 @@ int main() {
           sample_s_traj.push_back(future_s2);
           sample_x_traj.push_back(future_x2);
           sample_y_traj.push_back(future_y2);
+          
+          double future_s3 = future_s2 + 30;
+          double future_d3 = future_d1;
+          vector<double> future_xy3 = getXY(future_s3, future_d3, interpolated_s, interpolated_x, interpolated_y);
+          double future_x3 = future_xy3[0];
+          double future_y3 = future_xy3[1];
+          // fifth point
+          sample_s_traj.push_back(future_s3);
+          sample_x_traj.push_back(future_x3);
+          sample_y_traj.push_back(future_y3);
+          
           
           // Further s values are based on the velcoity increment needed
           double future_s_dot = optimised_s_d[0][1];
