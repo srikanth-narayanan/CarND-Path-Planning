@@ -1,8 +1,12 @@
+[//]: # (Image References)
+
+[image1]: ./data/Distance_Image.png "Distance Image"
+
 # CarND-Path-Planning-Project
 
 ## Introduction
 
-The scope of the project is to autonomously drive the car around the highway track. The track involves an highway with 3 lanes on each side. The simulator provides sensor fusion data about all the other car objects around the own vehicle. The project involves in the car driving at a reasonable speed but not exceeding the speed limits or not too slow unless obstructed by traffic around.  The car has to make necessary lane changes as needed in a safe manner. The total accelration must not exceed 10 m/s2 and total jerk cannot exceed 10 m/s3. The other key criterias for the car to follow are to not to cause collision with any other car in the highway and not to spend more than 3 seconds outside the lanes or on the lane markings.
+The scope of the project is to autonomously drive the car around the highway track. The track consists of 3 lanes on each side with moving traffic. The simulator provides sensor fusion data about other car objects around the own vehicle. The ego vehicle should drive at a reasonable speed but not exceeding the speed limits or not too slow unless obstructed by traffic around.  The car has to make necessary lane changes as needed in a safe manner. The total acceleration must not exceed 10 m/s<sup>2</sup> and total jerk cannot exceed 10 m/s<sup>3</sup>. The other key criterias for the car to follow are to not to cause collision with any other car in the highway and not to spend more than 3 seconds outside the lanes or on the lane markings.
 
 ## Implementation Steps
 
@@ -16,11 +20,12 @@ The implementation of path planning logic is done in the following steps.
 
 ### Generation of nearby waypoints
 
-The waypoints for the entire track is included as a map data in the ```highway_map.csv``` file. The waypoints are 30 meters apart. The waypoints are middle of the yellow line in the center of the highway. There are a total of 181 waypoints. The total distance in frenet co-ordinate system is 6945.554 meters or 4.32 miles. Each lane is 4 meter wide and the frenet d co-ordinates are based from the center of the yellow lines.  The map data is represented as global x, global y, frenet s, frenet dx and frenet dy. The interpolated data is created with 0.5 meters apart and 8 waypoints ahead and behind the ego vehicle. The ```getFrenet``` method is used to compensate for the begining and end of the track.
+The waypoints for the entire track is included as a map data in the ```highway_map.csv``` file. The waypoints are 30 meters apart. The waypoints are from the middle of the yellow line in the center of the highway. There are a total of 181 waypoints. The total distance in frenet co-ordinate system is 6945.554 meters or 4.32 miles. Each lane is 4 meter wide. The map data is represented as global x, global y, frenet s, frenet dx and frenet dy. The interpolated data is created with 0.5 meters apart and 8 waypoints ahead and behind the ego vehicle. The ```getFrenet``` method is used to compensate for the begining and end of the track.
 
 ### Determine Ego vehicle parameters and generation of Vehicle object
 
-The telemetry data for the ego vehicle is sent by the simulator instaneously. The data also contains the portion of the previuosly generated path that was used by the car to travel in the highway. This data is used to predict the future state of the car and planning for the further states is calculated.  By using the previous path along with the current path, a smooth transition for the car can be achieved.
+The telemetry data for the ego vehicle is sent by the simulator instaneously. The data also contains the portion of the previously generated path that was used by the car to travel in the highway. This data is used to predict the future state of the car and planning for the further states is calculated.  By using the previous path along with the current path, a smooth transition for the car can be achieved.
+
 The Ego vehicle has three plaussible states.
 - Keep Lane
 - Lane Change Left
@@ -44,11 +49,13 @@ A quintic polynomial, jerk minimising trajectory is calcuated for each available
 
 ### Generation of new path
 
-The new path is based on the combination of points from the previous path and optimium path received from the calcuations. The spline for the potential new path is generated based on 3 new points 30, 60 and 90 meters ahead. These s and d co-odrinates are used to produce a smooth spline. The number of points in the spline and veoclity increment controls the execssive acceleration or jerk limits.
+The new path is based on the combination of points from the previous path and optimium path received from the calcuations. The spline for the potential new path is generated based on 3 new points 30, 60 and 90 meters ahead. These s and d co-ordinates are used to produce a smooth spline. The number of points in the spline and velocity increment controls the execssive acceleration or jerk limits.
 
 ### Conclusion
 
-The optimised trajectory generator work well in most of the situation. Its is able to navigate the highway incident free for 10 to 12 miles based on several tests. The maximum incident free run that was been able to achieve was xx miles. 
+The optimised trajectory generator works well in most of the situation. Its is able to navigate the highway incident free for 10 to 12 miles based on several tests. The maximum incident free run that was been able to achieve was 23.58 miles.
+
+![Total Distance Image][image1]
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).
