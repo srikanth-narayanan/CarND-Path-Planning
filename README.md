@@ -28,11 +28,27 @@ The Ego vehicle has three plaussible states.
 
 
 ### Other vehicle path based on Sensor Fusion data
+
 The sensor fusion data for the cars are sent by the simulator for each cycle. This data contains the following information about each car. The data consists of Vehicle ID, Global X, Global Y, Global vx, (m/s), Global vy, (m/s), Frenet s and Frenet d. This data is extraced and trajectories for each car is generated based on the sensor fusion data. The trajectories of the ego car data and other vehicle data is used with a set of cost functions based on the project scope to determine the optimised state for the vehicle.
 
 ### Determine optimised trajectory for ego car
 
+The optimised trajectory is generated based on 5 different cost penalties and weights.
+- collision cost - This cost penalises the trajectory that collides with other cars
+- buffer cost - This cost penalises the trajectory that is beyond a certain allowable distance any other cars.
+- own lane buffer cost - This cost is to penalise if the following distance to the vehicle in front is not reached by the trajectory.
+- efficiency cost - This cost focuses on the trajectories that are not meeting the target velocity.
+- middle lane cost - The middle lane is an optimal lane for the ego vehicle so it always has multiple state options. Hence a cost to penalise the trajectory if the lane is not middle lane.
 
+A quintic polynomial, jerk minimising trajectory is calcuated for each available state. The final trajectory is based on the lowest of the total cost of each possible trajectory.
+
+### Generation of new path
+
+The new path is based on the combination of points from the previous path and optimium path received from the calcuations. The spline for the potential new path is generated based on 3 new points 30, 60 and 90 meters ahead. These s and d co-odrinates are used to produce a smooth spline. The number of points in the spline and veoclity increment controls the execssive acceleration or jerk limits.
+
+### Conclusion
+
+The optimised trajectory generator work well in most of the situation. Its is able to navigate the highway incident free for 10 to 12 miles based on several tests. The maximum incident free run that was been able to achieve was xx miles. 
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).
